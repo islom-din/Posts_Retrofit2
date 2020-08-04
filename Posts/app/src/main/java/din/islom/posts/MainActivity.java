@@ -18,8 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private PostsAPI postsAPI;
-    private List listOfPosts;
-    private static final String TAG = "MainActivity";
+    private List<Post> listOfPosts;
+    private static final String TAG = "MainActivity==========>";
 
     private final String BASE_URL = "https://jsonplaceholder.typicode.com/";
 
@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                  }
 
                  listOfPosts = response.body();
-
              }
 
              @Override
