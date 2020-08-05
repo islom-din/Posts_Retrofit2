@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        textView = findViewById(R.id.textView);
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -43,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
         // Создаем объект, при помощи которого будем выполнять запросы
         postsAPI = retrofit.create(PostsAPI.class);
 
-        //initListOfPosts();
-        initListOfComments();
+        initListOfPosts();
+        //initListOfComments();
     }
 
     private void initListOfPosts() {
-         postsAPI.getData().enqueue(new Callback<List<Post>>() {
+         postsAPI.getData(5).enqueue(new Callback<List<Post>>() {
              @Override
              public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                  if(!response.isSuccessful()) {
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
                      return;
                  }
                  listOfPosts = response.body();
+                 Post post = listOfPosts.get(0);
+                 textView.setText(post.getTitle());
              }
 
              @Override
@@ -66,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListOfComments() {
-        postsAPI.getComments(3, "comments").enqueue(new Callback<List<Comment>>() {
+        postsAPI.getComments(3).enqueue(new Callback<List<Comment>>() {
         // Call<List<Comment>> call = postsAPI.getComments();
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
@@ -75,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 listOfComments = response.body();
-                Comment comment = listOfComments.get(0);
-                textView = findViewById(R.id.textView);
-                textView.setText(comment.getEmail());
             }
 
             @Override
