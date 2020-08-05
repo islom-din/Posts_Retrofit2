@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListOfPosts() {
-         postsAPI.getData(5).enqueue(new Callback<List<Post>>() {
+         postsAPI.getData(5, "id", "desc").enqueue(new Callback<List<Post>>() {
              @Override
              public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                  if(!response.isSuccessful()) {
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                      return;
                  }
                  listOfPosts = response.body();
-                 Post post = listOfPosts.get(0);
+                 Post post = listOfPosts.get(6);
                  textView.setText(post.getTitle());
              }
 
