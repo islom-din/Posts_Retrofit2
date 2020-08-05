@@ -28,18 +28,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        // Создаем объект, при помощи которого будем выполнять запросы
+        postsAPI = retrofit.create(PostsAPI.class);
+
         initListOfPosts();
     }
 
     private void initListOfPosts() {
-         retrofit = new Retrofit.Builder()
-                 .baseUrl(BASE_URL)
-                 .addConverterFactory(GsonConverterFactory.create())
-                 .build();
-
-         // Создаем объект, при помощи которого будем выполнять запросы
-         postsAPI = retrofit.create(PostsAPI.class);
-
          postsAPI.getData().enqueue(new Callback<List<Post>>() {
              @Override
              public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
                      Log.d(TAG, "onResponse: " + response.message());
                      return;
                  }
-
                  listOfPosts = response.body();
              }
 
