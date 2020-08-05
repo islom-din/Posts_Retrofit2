@@ -7,7 +7,9 @@ import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import din.islom.posts.models.Comment;
 import din.islom.posts.models.Post;
@@ -50,7 +52,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListOfPosts() {
-         postsAPI.getData(5, "id", "desc").enqueue(new Callback<List<Post>>() {
+         Map<String, String> parameters = new HashMap();
+         parameters.put("userId", "5");
+         parameters.put("_sort", "id");
+         parameters.put("order", "desc");
+
+         postsAPI.getData(parameters).enqueue(new Callback<List<Post>>() {
              @Override
              public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                  if(!response.isSuccessful()) {
