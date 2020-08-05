@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private PostsAPI postsAPI;
+
+    TextView textView;
 
     private static final String TAG = "MainActivity==========>";
 
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListOfComments() {
-        postsAPI.getComments().enqueue(new Callback<List<Comment>>() {
+        postsAPI.getComments(3, "comments").enqueue(new Callback<List<Comment>>() {
         // Call<List<Comment>> call = postsAPI.getComments();
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
@@ -73,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 listOfComments = response.body();
                 Comment comment = listOfComments.get(0);
-                Log.d(TAG, "onResponse: " + comment.getName());
+                textView = findViewById(R.id.textView);
+                textView.setText(comment.getEmail());
             }
 
             @Override
